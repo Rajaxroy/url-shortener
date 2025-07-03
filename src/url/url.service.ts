@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import Redis from 'ioredis';
-import { Url } from 'src/url.entity';
+import { Url } from '../url.entity';
 import { Repository } from 'typeorm';
 import * as crypto from 'crypto';
 
@@ -24,6 +24,7 @@ export class UrlService {
   async shortenUrl(originalUrl: string): Promise<string> {
     let url = await this.urlRepository.findOne({ where: { originalUrl } });
     if (url) {
+      await this.redis.set(url.code, url.originalUrl);
       return url.code;
     }
 
