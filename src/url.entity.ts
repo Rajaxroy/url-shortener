@@ -11,7 +11,4 @@ export class Url {
 
   @Column()
   originalUrl: string;
-
-  @Column()
-  shortUrl: string;
 }
